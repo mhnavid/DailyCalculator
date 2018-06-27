@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Daily Calculator</string>
+
+    <string name="zero_btn">0</string>
+    <string name="one_btn">1</string>
+    <string name="two_btn">2</string>
+    <string name="three_btn">3</string>
+    <string name="four_btn">4</string>
+    <string name="five_btn">5</string>
+    <string name="six_btn">6</string>
+    <string name="seven_btn">7</string>
+    <string name="eight_btn">8</string>
+    <string name="nine_btn">9</string>
+    <string name="point_btn">.</string>
+    <string name="equal_btn">=</string>
+    <string name="plus_btn">+</string>
+    <string name="minus_btn">-</string>
+    <string name="mul_btn">x</string>
+    <string name="div_btn">/</string>
+    <string name="percent_btn">%</string>
+    <string name="memory_plus_btn">M+</string>
+    <string name="memory_minus_btn">M-</string>
+    <string name="memory_restore_btn">MR</string>
+    <string name="memory_clear_btn">MC</string>
+    <string name="clear_btn">C</string>
+    <string name="history_btn">HISTORY</string>
+    <string name="backspace_btn">\u232B</string>
+</resources>
