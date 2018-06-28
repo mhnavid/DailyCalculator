@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="122dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,9 +19,15 @@
         app:layout_constraintVertical_chainStyle="spread_inside">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/resultView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:gravity="right|center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="0"
+            android:textColor="@color/gray900"
+            android:textSize="52sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +54,8 @@
                 android:layout_weight="1"
                 android:background="@color/deepOrange200"
                 android:text="@string/history_btn"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/memoryPlusBtn"
@@ -58,7 +65,8 @@
                 android:background="@color/deepOrange600"
                 android:text="@string/memory_plus_btn"
                 android:textColor="@color/colorWhite"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/memoryMinusBtn"
@@ -68,7 +76,8 @@
                 android:background="@color/deepOrange600"
                 android:text="@string/memory_minus_btn"
                 android:textColor="@color/colorWhite"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/memoryRestoreBtn"
@@ -78,7 +87,8 @@
                 android:background="@color/deepOrange600"
                 android:text="@string/memory_restore_btn"
                 android:textColor="@color/colorWhite"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,9 +103,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickClear"
                 android:text="@string/clear_btn"
                 android:textColor="@color/red600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/memoryClearBtn"
@@ -105,7 +117,8 @@
                 android:background="@color/gray100"
                 android:text="@string/memory_clear_btn"
                 android:textColor="@color/red600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/backspaceBtn"
@@ -115,7 +128,8 @@
                 android:background="@color/gray100"
                 android:text="@string/backspace_btn"
                 android:textColor="@color/red600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/percentBtn"
@@ -123,9 +137,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickOperator"
                 android:text="@string/percent_btn"
                 android:textColor="@color/blue600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -140,8 +156,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/seven_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/eightBtn"
@@ -149,8 +167,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/eight_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/nineBtn"
@@ -158,8 +178,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/nine_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/divBtn"
@@ -167,9 +189,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickOperator"
                 android:text="@string/div_btn"
                 android:textColor="@color/blue600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -184,8 +208,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/four_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/fiveBtn"
@@ -193,8 +219,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/five_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/sixBtn"
@@ -202,8 +230,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/six_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/mulBtn"
@@ -211,9 +241,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickOperator"
                 android:text="@string/mul_btn"
                 android:textColor="@color/blue600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -228,8 +260,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/one_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/twoBtn"
@@ -237,8 +271,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/two_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/threeBtn"
@@ -246,8 +282,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/three_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/minusBtn"
@@ -255,9 +293,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickOperator"
                 android:text="@string/minus_btn"
                 android:textColor="@color/blue600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -272,8 +312,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/zero_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/pointBtn"
@@ -281,8 +323,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickNumber"
                 android:text="@string/point_btn"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/equalBtn"
@@ -290,9 +334,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickEqual"
                 android:text="@string/equal_btn"
                 android:textColor="@color/blue600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/plusBtn"
@@ -300,9 +346,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
+                android:onClick="onClickOperator"
                 android:text="@string/plus_btn"
                 android:textColor="@color/blue600"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

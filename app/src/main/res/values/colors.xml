@@ -13,4 +13,5 @@
     <color name="gray100">#F5F5F5</color>
     <color name="deepOrange600">#F4511E</color>
     <color name="deepOrange200">#FFAB91</color>
+    <color name="gray900">#212121</color>
 </resources>
