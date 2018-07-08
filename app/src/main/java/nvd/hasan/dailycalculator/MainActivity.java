@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
         if (display == "")return;
 
         if (result != ""){
-            display = result;
-            result = "";
+            String _display = result;
+            clear();
+            display = _display;
         }
 
         if (currentOperator != ""){
@@ -132,9 +133,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickBackspace(View v){
-        if (display != null && display.length() > 0) {
-            display = display.substring(0, display.length() - 1);
+        if (display != "" && display.length() > 0) {
+            if(isOperator(display.charAt(display.length() - 1))){
+                display = display.substring(0, display.length() - 1);
+                updateScreen();
+                currentOperator = "";
+            }
+            else{
+                display = display.substring(0, display.length() - 1);
+                updateScreen();
+            }
         }
-        updateScreen();
+
     }
 }
