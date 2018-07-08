@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
@@ -13,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView resultView;
     private String display = "";
-    private String currentOperator = "";
+    private String currentOperator;
+    private String[] operation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickOperator(View v){
         Button b = (Button) v;
-        display += b.getText();
-        currentOperator += b.getText().toString();
-        updateScreen();
+        if(resultView.getText() != ""){
+            display += b.getText();
+            currentOperator += b.getText().toString();
+            updateScreen();
+        }
+        else{
+            Toast.makeText(this, "Please value first.", Toast.LENGTH_SHORT);
+            clear();
+            updateScreen();
+        }
     }
 
     public void clear(){
@@ -69,15 +78,33 @@ public class MainActivity extends AppCompatActivity {
             case "%":
                 return Double.valueOf(a) * ( Double.valueOf(b) / 100 );
                 default:
-                    return -1;
+                    return 0;
         }
     }
 
     public void onClickEqual(View v){
-        String[] operation = display.split(Pattern.quote(currentOperator));
-        if (operation.length < 2) return;
+        if (resultView.getText() != ""){
+            operation = display.split(Pattern.quote(currentOperator));
+            if (operation.length < 2) return;
 
-        Double result = operator(operation[0], operation[1], currentOperator);
-        resultView.setText(String.valueOf(result));
+            Double result = operator(operation[0], operation[1], currentOperator);
+            clear();
+            resultView.setText(String.valueOf(result));
+            display = String.valueOf(result);
+            updateScreen();
+        }
+        else{
+            clear();
+            updateScreen();
+        }
+
+
+    }
+
+    public void onClickBackspace(View v){
+        if (display != null && display.length() > 0) {
+            display = display.substring(0, display.length() - 1);
+        }
+        updateScreen();
     }
 }
