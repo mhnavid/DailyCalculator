@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickOperator(View v){
         Button b = (Button) v;
+        if (display == "")return;
+
         if (result != ""){
             display = result;
             result = "";
@@ -62,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentOperator != ""){
             if(isOperator(display.charAt(display.length() - 1))){
-                display.replace(display.charAt(display.length() - 1), b.getText().charAt(0));
+                display = display.replace(display.charAt(display.length() - 1), b.getText().charAt(0));
+                updateScreen();
+                return;
             }
             else {
                 getResult();
@@ -99,14 +103,14 @@ public class MainActivity extends AppCompatActivity {
                     return Double.valueOf(a) * Double.valueOf(b);
                 }
                 catch (Exception e){
-                    Log.d("Calc", e.getMessage());
+                    Log.d("Cal1", e.getMessage());
                 }
             case "/":
                 try {
                     return Double.valueOf(a) / Double.valueOf(b);
                 }
                 catch (Exception e){
-                    Log.d("Calc", e.getMessage());
+                    Log.d("Cal0", e.getMessage());
                 }
                 default:
                     return -1;
@@ -115,12 +119,14 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean getResult(){
         String[] operation = display.split(Pattern.quote(currentOperator));
+        if (currentOperator == "") return false;
         if (operation.length < 2) return false;
         result = String.valueOf(operator(operation[0], operation[1], currentOperator));
         return true;
     }
 
     public void onClickEqual(View v){
+        if (display == "")return;
         if (!getResult())return;
         resultView.setText(String.valueOf(result));
     }
