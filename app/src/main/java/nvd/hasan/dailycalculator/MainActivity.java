@@ -14,8 +14,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView resultView;
     private String display = "";
-    private String currentOperator;
-    private String[] operation;
+    private String currentOperator = "";
+    private String result = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,28 +32,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickNumber(View v){
+        if (result != ""){
+            clear();
+            updateScreen();
+        }
         Button b = (Button) v;
         display += b.getText();
         updateScreen();
     }
 
+    public boolean isOperator(char op){
+        switch (op){
+            case '+':
+            case '-':
+            case 'x':
+            case '/':
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public void onClickOperator(View v){
         Button b = (Button) v;
-        if(resultView.getText() != ""){
-            display += b.getText();
-            currentOperator += b.getText().toString();
-            updateScreen();
+        if (result != ""){
+            display = result;
+            result = "";
         }
-        else{
-            Toast.makeText(this, "Please value first.", Toast.LENGTH_SHORT);
-            clear();
-            updateScreen();
+
+        if (currentOperator != ""){
+            if(isOperator(display.charAt(display.length() - 1))){
+                display.replace(display.charAt(display.length() - 1), b.getText().charAt(0));
+            }
+            else {
+                getResult();
+                display = result;
+                result = "";
+            }
+            currentOperator = b.getText().toString();
         }
+
+        display += b.getText();
+        currentOperator = b.getText().toString();
+        updateScreen();
     }
 
     public void clear(){
         display = "";
         currentOperator = "";
+        result = "";
     }
 
     public void onClickClear(View v){
@@ -67,7 +95,12 @@ public class MainActivity extends AppCompatActivity {
             case "-":
                 return Double.valueOf(a) - Double.valueOf(b);
             case "x":
-                return Double.valueOf(a) * Double.valueOf(b);
+                try{
+                    return Double.valueOf(a) * Double.valueOf(b);
+                }
+                catch (Exception e){
+                    Log.d("Calc", e.getMessage());
+                }
             case "/":
                 try {
                     return Double.valueOf(a) / Double.valueOf(b);
@@ -75,30 +108,21 @@ public class MainActivity extends AppCompatActivity {
                 catch (Exception e){
                     Log.d("Calc", e.getMessage());
                 }
-            case "%":
-                return Double.valueOf(a) * ( Double.valueOf(b) / 100 );
                 default:
-                    return 0;
+                    return -1;
         }
     }
 
+    public boolean getResult(){
+        String[] operation = display.split(Pattern.quote(currentOperator));
+        if (operation.length < 2) return false;
+        result = String.valueOf(operator(operation[0], operation[1], currentOperator));
+        return true;
+    }
+
     public void onClickEqual(View v){
-        if (resultView.getText() != ""){
-            operation = display.split(Pattern.quote(currentOperator));
-            if (operation.length < 2) return;
-
-            Double result = operator(operation[0], operation[1], currentOperator);
-            clear();
-            resultView.setText(String.valueOf(result));
-            display = String.valueOf(result);
-            updateScreen();
-        }
-        else{
-            clear();
-            updateScreen();
-        }
-
-
+        if (!getResult())return;
+        resultView.setText(String.valueOf(result));
     }
 
     public void onClickBackspace(View v){
