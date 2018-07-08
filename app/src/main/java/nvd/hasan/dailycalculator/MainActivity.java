@@ -41,6 +41,31 @@ public class MainActivity extends AppCompatActivity {
         updateScreen();
     }
 
+    public double operator(String a, String b, String op){
+        switch (op){
+            case "+":
+                return Double.valueOf(a) + Double.valueOf(b);
+            case "-":
+                return Double.valueOf(a) - Double.valueOf(b);
+            case "x":
+                try{
+                    return Double.valueOf(a) * Double.valueOf(b);
+                }
+                catch (Exception e){
+                    Log.d("Cal1", e.getMessage());
+                }
+            case "/":
+                try {
+                    return Double.valueOf(a) / Double.valueOf(b);
+                }
+                catch (Exception e){
+                    Log.d("Cal0", e.getMessage());
+                }
+            default:
+                return -1;
+        }
+    }
+
     public boolean isOperator(char op){
         switch (op){
             case '+':
@@ -63,12 +88,24 @@ public class MainActivity extends AppCompatActivity {
             display = _display;
         }
 
+        if(display.charAt(0) == '-'){
+            return;
+        }
+
         if (currentOperator != ""){
             if(isOperator(display.charAt(display.length() - 1))){
                 display = display.replace(display.charAt(display.length() - 1), b.getText().charAt(0));
                 updateScreen();
                 return;
             }
+//            if(display.charAt(0) == '-'){
+//                display = display.substring(1, display.length() - 1);
+//                String[] operation = display.split(Pattern.quote(currentOperator));
+//                Double firstValue = (-Double.valueOf(operation[1]));
+//                result = String.valueOf(operator(String.valueOf(firstValue), operation[2], currentOperator));
+//                display = result;
+//                result = "";
+//            }
             else {
                 getResult();
                 display = result;
@@ -82,6 +119,39 @@ public class MainActivity extends AppCompatActivity {
         updateScreen();
     }
 
+    public void onClickPercent(View v){
+        Button b = (Button) v;
+        if (display == "")return;
+
+        if (result != ""){
+            String _display = result;
+            clear();
+            display = _display;
+        }
+
+        if (currentOperator != ""){
+            if(isOperator(display.charAt(display.length() - 1))){
+                return;
+            }
+            else {
+                String[] operation = display.split(Pattern.quote(currentOperator));
+                clear();
+                Double secondValue = Double.valueOf(operation[1])/100;
+                result = String.valueOf(operator(operation[0], String.valueOf(secondValue), currentOperator));
+                display = result;
+                updateScreen();
+
+            }
+        }
+
+        if (currentOperator == ""){
+            return;
+        }
+
+        display += b.getText();
+        updateScreen();
+    }
+
     public void clear(){
         display = "";
         currentOperator = "";
@@ -91,31 +161,6 @@ public class MainActivity extends AppCompatActivity {
     public void onClickClear(View v){
         clear();
         updateScreen();
-    }
-
-    public double operator(String a, String b, String op){
-        switch (op){
-            case "+":
-                return Double.valueOf(a) + Double.valueOf(b);
-            case "-":
-                return Double.valueOf(a) - Double.valueOf(b);
-            case "x":
-                try{
-                    return Double.valueOf(a) * Double.valueOf(b);
-                }
-                catch (Exception e){
-                    Log.d("Cal1", e.getMessage());
-                }
-            case "/":
-                try {
-                    return Double.valueOf(a) / Double.valueOf(b);
-                }
-                catch (Exception e){
-                    Log.d("Cal0", e.getMessage());
-                }
-                default:
-                    return -1;
-        }
     }
 
     public boolean getResult(){

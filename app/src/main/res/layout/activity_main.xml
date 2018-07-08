@@ -139,7 +139,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/gray100"
-                android:onClick="onClickOperator"
+                android:onClick="onClickPercent"
                 android:text="@string/percent_btn"
                 android:textColor="@color/blue600"
                 android:textSize="22sp"
