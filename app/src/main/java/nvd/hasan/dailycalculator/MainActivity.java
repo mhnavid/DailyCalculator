@@ -1,5 +1,6 @@
 package nvd.hasan.dailycalculator;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private String display = "";
     private String currentOperator = "";
     private String result = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public double operator(String a, String b, String op){
+        Context context = getApplicationContext();
         switch (op){
             case "+":
                 return Double.valueOf(a) + Double.valueOf(b);
@@ -56,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             case "/":
                 try {
-                    return Double.valueOf(a) / Double.valueOf(b);
+                    if(Double.valueOf(a) == 0){
+                        Toast.makeText(context, "Wrong calculation", Toast.LENGTH_LONG).show();
+                        return 0;
+                    }
+                    else {
+                        return Double.valueOf(a) / Double.valueOf(b);
+                    }
                 }
                 catch (Exception e){
                     Log.d("Cal0", e.getMessage());
