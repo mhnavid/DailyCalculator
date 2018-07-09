@@ -64,6 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/deepOrange600"
+                android:onClick="onClickMemoryPlus"
                 android:text="@string/memory_plus_btn"
                 android:textColor="@color/colorWhite"
                 android:textSize="14sp"

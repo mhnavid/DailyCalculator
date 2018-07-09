@@ -1,6 +1,7 @@
 package nvd.hasan.dailycalculator;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -213,6 +214,13 @@ public class MainActivity extends AppCompatActivity {
                 updateScreen();
             }
         }
+    }
 
+    public void onClickMemoryPlus(View v){
+//        Context context = getActivity();
+//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.putInt(getString(R.string.saved_high_score_key), newHighScore);
+//        editor.commit();
     }
 }
