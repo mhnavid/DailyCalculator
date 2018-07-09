@@ -14,9 +14,10 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     private TextView resultView;
-    private String display = "";
+    static String display = "";
     private String currentOperator = "";
     private String result = "";
+    private boolean isDotClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,20 @@ public class MainActivity extends AppCompatActivity {
             updateScreen();
         }
         Button b = (Button) v;
-        display += b.getText();
-        updateScreen();
+        if (b.getText().toString().equals(".")){
+            if (!isDotClicked){
+                isDotClicked = true;
+                display += b.getText();
+                updateScreen();
+            }
+            else {
+                return;
+            }
+        }
+        else{
+            display += b.getText();
+            updateScreen();
+        }
     }
 
     public double operator(String a, String b, String op){
@@ -88,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClickOperator(View v){
         Button b = (Button) v;
         if (display == "")return;
+
+        if (isDotClicked){
+            isDotClicked = false;
+        }
 
         if (result != ""){
             String _display = result;
@@ -142,12 +159,13 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 String[] operation = display.split(Pattern.quote(currentOperator));
-                clear();
-                Double secondValue = Double.valueOf(operation[1])/100;
-                result = String.valueOf(operator(operation[0], String.valueOf(secondValue), currentOperator));
+                Double firstValue = Double.valueOf(operation[0]);
+                Double secondValue = Double.valueOf(operation[1]);
+                Double finalValue = (firstValue*secondValue)/100;
+                result = String.valueOf(operator(operation[0], String.valueOf(finalValue), currentOperator));
+                display = "";
                 display = result;
                 updateScreen();
-
             }
         }
 
@@ -155,8 +173,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        display += b.getText();
-        updateScreen();
+
     }
 
     public void clear(){
