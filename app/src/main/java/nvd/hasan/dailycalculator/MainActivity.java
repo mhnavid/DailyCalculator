@@ -50,6 +50,18 @@ public class MainActivity extends AppCompatActivity {
         if (b.getText().toString().equals(".")){
             if (!isDotClicked){
                 isDotClicked = true;
+                if (textViewLength()){
+                    display += b.getText();
+                    fullRxpression += b.getText();
+                    updateScreen();
+                }
+            }
+            else {
+                return;
+            }
+        }
+        else{
+            if (textViewLength()){
                 display += b.getText();
                 fullRxpression += b.getText();
                 updateScreen();
@@ -57,11 +69,6 @@ public class MainActivity extends AppCompatActivity {
             else {
                 return;
             }
-        }
-        else{
-            display += b.getText();
-            fullRxpression += b.getText();
-            updateScreen();
         }
     }
 
@@ -111,7 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickOperator(View v){
         Button b = (Button) v;
-        if (display == "")return;
+        if (display == ""&& !(((Button) v).getText().equals("-"))){
+            return;
+        }
 
         if (result != ""){
             String _display = result;
@@ -119,11 +128,7 @@ public class MainActivity extends AppCompatActivity {
             display = _display;
         }
 
-        if(display.charAt(0) == '-'){
-            return;
-        }
-
-        if (display.charAt(display.length() - 1) == '.'){
+        if (!(display.isEmpty()) && display.charAt(display.length() - 1) == '.'){
             isDotClicked = true;
             return;
         }
@@ -151,11 +156,16 @@ public class MainActivity extends AppCompatActivity {
             }
             currentOperator = b.getText().toString();
         }
+        if (textViewLength()){
+            display += b.getText();
+            fullRxpression += b.getText();
+            currentOperator = b.getText().toString();
+            updateScreen();
+        }
+        else {
+            return;
+        }
 
-        display += b.getText();
-        fullRxpression += b.getText();
-        currentOperator = b.getText().toString();
-        updateScreen();
     }
 
     public void onClickPercent(View v){
@@ -218,13 +228,19 @@ public class MainActivity extends AppCompatActivity {
         try{
             result = evaluator.evaluate(display).toString();
             fullRxpression += " = " + result;
-            dbHelper.insert("dailyCalculator", fullRxpression);
+            if (!(resultView.getText().toString().equals(result))){
+                dbHelper.insert("dailyCalculator", fullRxpression);
+            }
+            else {
+                return;
+            }
         }
         catch (Exception e){
             System.out.println (display+" is an invalid expression");
         }
         resultView.setText(String.valueOf(result));
-        Toast.makeText(context, fullRxpression, Toast.LENGTH_LONG).show();
+        fullRxpression = "";
+//        Toast.makeText(context, fullRxpression, Toast.LENGTH_LONG).show();
 
     }
 
@@ -329,5 +345,16 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(context, "Memory cleared", Toast.LENGTH_LONG).show();
         clear();
         updateScreen();
+    }
+
+    public boolean textViewLength(){
+        Context context = getApplicationContext();
+        if (resultView.getText().length() == 15){
+            Toast.makeText(context, "You are at max limit", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

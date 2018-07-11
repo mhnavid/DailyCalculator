@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -17,6 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String table_Name="history";
     private static final String column1="calculator_name";
     private static final String column2="expression";
+    private static final String column3 = "";
     private static final String create_Table="CREATE TABLE "+table_Name+"("+column1+" TEXT,"+column2+" TEXT);";
 
     SQLiteDatabase db;
@@ -37,6 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues=new ContentValues();
         contentValues.put(column1,calcName);
         contentValues.put(column2, expression);
+//        contentValues.put(column3, dateTime());
         db.insert(table_Name, null, contentValues);
         db.close();
     }
@@ -67,8 +71,14 @@ public class DBHelper extends SQLiteOpenHelper {
         int i=db.delete(table_Name, column1+"=?", value);
         db.close();
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public String dateTime(){
+        Date currentTime = Calendar.getInstance().getTime();
+        return String.valueOf(currentTime);
     }
 }
