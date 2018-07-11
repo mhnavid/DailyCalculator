@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     static String fullRxpression = "";
     DoubleEvaluator evaluator = new DoubleEvaluator();
 
+
+    private DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         resultView = findViewById(R.id.resultView);
         resultView.setText(display);
+        dbHelper = new DBHelper(this);
     }
 
     public void updateScreen(){
@@ -213,13 +217,15 @@ public class MainActivity extends AppCompatActivity {
 //        if (!getResult())return;
         try{
             result = evaluator.evaluate(display).toString();
+            fullRxpression += " = " + result;
+            dbHelper.insert("dailyCalculator", fullRxpression);
         }
         catch (Exception e){
             System.out.println (display+" is an invalid expression");
         }
-        fullRxpression += " = " + result;
         resultView.setText(String.valueOf(result));
         Toast.makeText(context, fullRxpression, Toast.LENGTH_LONG).show();
+
     }
 
     public void onClickBackspace(View v){
@@ -243,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickHistory(View v){
         Intent intent = new Intent(this, History.class);
+        intent.putExtra("calcName", "dailyCalculator");
         startActivity(intent);
     }
 
