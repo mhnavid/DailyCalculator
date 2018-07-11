@@ -15,7 +15,7 @@
     <string name="equal_btn">=</string>
     <string name="plus_btn">+</string>
     <string name="minus_btn">-</string>
-    <string name="mul_btn">x</string>
+    <string name="mul_btn">*</string>
     <string name="div_btn">/</string>
     <string name="percent_btn">%</string>
     <string name="memory_plus_btn">M+</string>

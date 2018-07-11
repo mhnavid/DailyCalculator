@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.regex.Pattern;
+import com.fathzer.soft.javaluator.DoubleEvaluator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private String result = "";
     static boolean isDotClicked = false;
 //    static String saved_result = "";
+    DoubleEvaluator evaluator = new DoubleEvaluator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +136,14 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             else {
-                getResult();
+//                getResult();
+                try{
+                    result = evaluator.evaluate(display).toString();
+                }
+                catch (Exception e){
+                    System.out.println (display+" is an invalid expression");
+                }
+
                 display = result;
                 result = "";
             }
