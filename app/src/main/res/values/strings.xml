@@ -25,4 +25,5 @@
     <string name="clear_btn">C</string>
     <string name="history_btn">HISTORY</string>
     <string name="backspace_btn">\u232B</string>
+    <string name="clear_history_btn">Clear History</string>
 </resources>

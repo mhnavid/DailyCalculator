@@ -1,6 +1,7 @@
 package nvd.hasan.dailycalculator;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     static String display = "";
     private String currentOperator = "";
     private String result = "";
-    private boolean isDotClicked = false;
+    static boolean isDotClicked = false;
+//    static String saved_result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
         Button b = (Button) v;
         if (display == "")return;
 
-        if (isDotClicked){
-            isDotClicked = false;
-        }
+//        if (isDotClicked){
+//            isDotClicked = false;
+//        }
 
         if (result != ""){
             String _display = result;
@@ -117,20 +119,20 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        if (display.charAt(display.length() - 1) == '.'){
+            isDotClicked = true;
+            return;
+        }
+        else {
+            isDotClicked = false;
+        }
+
         if (currentOperator != ""){
             if(isOperator(display.charAt(display.length() - 1))){
                 display = display.replace(display.charAt(display.length() - 1), b.getText().charAt(0));
                 updateScreen();
                 return;
             }
-//            if(display.charAt(0) == '-'){
-//                display = display.substring(1, display.length() - 1);
-//                String[] operation = display.split(Pattern.quote(currentOperator));
-//                Double firstValue = (-Double.valueOf(operation[1]));
-//                result = String.valueOf(operator(String.valueOf(firstValue), operation[2], currentOperator));
-//                display = result;
-//                result = "";
-//            }
             else {
                 getResult();
                 display = result;
@@ -208,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
                 display = display.substring(0, display.length() - 1);
                 updateScreen();
                 currentOperator = "";
+                if (!isDotClicked){
+                    isDotClicked = true;
+                }
             }
             else{
                 display = display.substring(0, display.length() - 1);
@@ -216,11 +221,84 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickHistory(View v){
+        Intent intent = new Intent(this, History.class);
+        startActivity(intent);
+    }
+
     public void onClickMemoryPlus(View v){
-//        Context context = getActivity();
-//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        editor.putInt(getString(R.string.saved_high_score_key), newHighScore);
-//        editor.commit();
+        Context context = getApplicationContext();
+        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String saved_value = sharedPref.getString("saved_result", "");
+
+        if (saved_value.isEmpty()){
+            if (display.isEmpty()){
+                Toast.makeText(context, "No value stored.", Toast.LENGTH_LONG).show();
+            }
+            else{
+                editor.putString("saved_result", display);
+                editor.commit();
+                Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            if (display != ""){
+                Double newValue = (Double.valueOf(saved_value) + Double.valueOf(display));
+                editor.putString("saved_result", String.valueOf(newValue));
+                editor.commit();
+                display = String.valueOf(newValue);
+                updateScreen();
+            }
+            else {
+                Double newValue = (Double.valueOf(saved_value) + Double.valueOf(saved_value));
+                editor.putString("saved_result", String.valueOf(newValue));
+                editor.commit();
+                display = String.valueOf(newValue);
+                updateScreen();
+            }
+        }
+    }
+
+    public void onClickMemoryMinus(View v){
+        Context context = getApplicationContext();
+        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String saved_value = sharedPref.getString("saved_result", "");
+        if (saved_value.isEmpty()){
+            Toast.makeText(context, "No value saved yet", Toast.LENGTH_LONG).show();
+        }
+        else {
+            if (display.isEmpty()){
+                Toast.makeText(context, "Write some value first", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Double newValue = (Double.valueOf(saved_value) - Double.valueOf(display));
+                editor.putString("saved_result", String.valueOf(newValue));
+                editor.commit();
+                display = String.valueOf(newValue);
+                updateScreen();
+            }
+        }
+    }
+
+    public void onClickMemoryRestore(View v){
+        Context context = getApplicationContext();
+        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        String saved_value = sharedPref.getString("saved_result", "");
+        if (saved_value.isEmpty()){
+            Toast.makeText(context, "No saved value", Toast.LENGTH_LONG).show();
+        }
+        display = String.valueOf(saved_value);
+        updateScreen();
+    }
+
+    public void onClickMemoryClear(View v){
+        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("saved_result", "");
+        editor.commit();
+        clear();
+        updateScreen();
     }
 }
