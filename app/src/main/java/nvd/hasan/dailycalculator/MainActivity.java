@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private String currentOperator = "";
     private String result = "";
     static boolean isDotClicked = false;
-//    static String saved_result = "";
+    static String fullRxpression = "";
     DoubleEvaluator evaluator = new DoubleEvaluator();
 
     @Override
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             if (!isDotClicked){
                 isDotClicked = true;
                 display += b.getText();
+                fullRxpression += b.getText();
                 updateScreen();
             }
             else {
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             display += b.getText();
+            fullRxpression += b.getText();
             updateScreen();
         }
     }
@@ -107,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
         Button b = (Button) v;
         if (display == "")return;
 
-//        if (isDotClicked){
-//            isDotClicked = false;
-//        }
-
         if (result != ""){
             String _display = result;
             clear();
@@ -151,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         display += b.getText();
+        fullRxpression += b.getText();
         currentOperator = b.getText().toString();
         updateScreen();
     }
@@ -197,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickClear(View v){
         clear();
         updateScreen();
+        fullRxpression = "";
     }
 
     public boolean getResult(){
@@ -208,15 +208,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickEqual(View v){
+        Context context = getApplicationContext();
         if (display == "")return;
-        if (!getResult())return;
+//        if (!getResult())return;
+        try{
+            result = evaluator.evaluate(display).toString();
+        }
+        catch (Exception e){
+            System.out.println (display+" is an invalid expression");
+        }
+        fullRxpression += " = " + result;
         resultView.setText(String.valueOf(result));
+        Toast.makeText(context, fullRxpression, Toast.LENGTH_LONG).show();
     }
 
     public void onClickBackspace(View v){
         if (display != "" && display.length() > 0) {
             if(isOperator(display.charAt(display.length() - 1))){
                 display = display.substring(0, display.length() - 1);
+                fullRxpression = fullRxpression.substring(0, fullRxpression.length()-1);
                 updateScreen();
                 currentOperator = "";
                 if (!isDotClicked){
@@ -225,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 display = display.substring(0, display.length() - 1);
+                fullRxpression = fullRxpression.substring(0, fullRxpression.length()-1);
                 updateScreen();
             }
         }
