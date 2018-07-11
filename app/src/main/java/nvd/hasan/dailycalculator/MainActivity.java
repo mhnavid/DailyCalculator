@@ -294,10 +294,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickMemoryClear(View v){
+        Context context = getApplicationContext();
         SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("saved_result", "");
         editor.commit();
+        Toast.makeText(context, "Memory cleared", Toast.LENGTH_LONG).show();
         clear();
         updateScreen();
     }
