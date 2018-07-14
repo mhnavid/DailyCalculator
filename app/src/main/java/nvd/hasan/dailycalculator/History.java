@@ -14,7 +14,7 @@ public class History extends AppCompatActivity {
     private ArrayList<String> list;
     private ArrayAdapter<String> adapter;
     private String calcName="";
-    private String []EmptyList={"There is  no history yet"};
+    private String []EmptyList={"History empty!"};
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

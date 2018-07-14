@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 catch (Exception e){
                     Log.d("Cal0", e.getMessage());
                 }
+
             default:
                 return -1;
         }
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickOperator(View v){
         Button b = (Button) v;
-        if (display == ""&& !(((Button) v).getText().equals("-"))){
+        if (resultView.getText().toString() == ""&& !(((Button) v).getText().equals("-"))){
             return;
         }
 
@@ -136,9 +137,10 @@ public class MainActivity extends AppCompatActivity {
             isDotClicked = false;
         }
 
-        if (currentOperator != ""){
+        if (!(currentOperator.isEmpty())){
             if(isOperator(display.charAt(display.length() - 1))){
                 display = display.replace(display.charAt(display.length() - 1), b.getText().charAt(0));
+                fullRxpression = fullRxpression.replace(fullRxpression.charAt(fullRxpression.length()-1), b.getText().charAt(0));
                 updateScreen();
                 return;
             }
@@ -351,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         if (resultView.getText().length() == 15){
             Toast.makeText(context, "You are at max limit", Toast.LENGTH_LONG).show();
-            return false;
+            return true;
         }
         else {
             return true;
