@@ -336,8 +336,8 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 Double newValue = (Double.valueOf(saved_value) - Double.valueOf(display));
-                editor.putString("saved_result", String.valueOf(newValue));
-                editor.commit();
+//                editor.putString("saved_result", String.valueOf(newValue));
+//                editor.commit();
                 display = String.valueOf(newValue);
                 updateScreen();
             }
