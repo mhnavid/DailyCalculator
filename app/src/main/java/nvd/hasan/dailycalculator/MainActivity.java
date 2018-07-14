@@ -335,11 +335,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(context, "Write some value first", Toast.LENGTH_LONG).show();
             }
             else {
-                Double newValue = (Double.valueOf(saved_value) - Double.valueOf(display));
+                try {
+                    Double newValue = (Double.valueOf(saved_value) - Double.valueOf(display));
+                    display = String.valueOf(newValue);
+                    updateScreen();
+                }
+                catch (Exception e){
+                    Toast.makeText(context, "Wrong expression", Toast.LENGTH_LONG).show();
+                }
 //                editor.putString("saved_result", String.valueOf(newValue));
 //                editor.commit();
-                display = String.valueOf(newValue);
-                updateScreen();
             }
         }
     }
