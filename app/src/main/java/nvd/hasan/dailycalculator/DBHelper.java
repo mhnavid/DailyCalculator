@@ -7,20 +7,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String database_Name="HISTORY.DB";
-    private static final int database_Version=1;
+    private static final String database_Name="C_HISTORY.DB";
+    private static final int database_Version=4;
     private static final String TAG="DATABASE OPERATIONS";
     private static final String table_Name="history";
     private static final String column1="calculator_name";
     private static final String column2="expression";
-    private static final String column3 = "";
+    private static final String column3 = "dateTime";
     private static final String create_Table="CREATE TABLE "+table_Name+"("+column1+" TEXT,"+column2+" TEXT);";
+
+//    private static final String create_Table="CREATE TABLE "+table_Name+"("+column1+" TEXT,"+column2+" TEXT, "+column3+"TEXT );";
 
     SQLiteDatabase db;
     public DBHelper(Context context) {
@@ -30,24 +33,25 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(create_Table);
         Log.i(TAG,"Table Created");
     }
 
     public void insert(String calcName,String expression)
     {
-        db=getWritableDatabase();
+        db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
         contentValues.put(column1,calcName);
         contentValues.put(column2, expression);
 //        contentValues.put(column3, dateTime());
-        db.insert(table_Name, null, contentValues);
+        db.insertOrThrow(table_Name, null, contentValues);
         db.close();
     }
 
     public ArrayList<String> showHistory(String calcName)
     {
-        db=getReadableDatabase();
+        db=this.getReadableDatabase();
         Cursor cursor;
         ArrayList<String> list=new ArrayList<String>();
         String []selectionArgs={calcName};
@@ -74,11 +78,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+//        db.execSQL("ALTER TABLE "+table_Name+" ADD COLUMN" +column3+ "TEXT ;");
     }
-
-    public String dateTime(){
-        Date currentTime = Calendar.getInstance().getTime();
-        return String.valueOf(currentTime);
+    public void deleteAll()
+    {
+        db.execSQL("delete from "+ table_Name);
+        db.close();
     }
 }

@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 
@@ -231,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
             result = evaluator.evaluate(display).toString();
             fullRxpression += " = " + result;
             if (!(resultView.getText().toString().equals(result))){
-                dbHelper.insert("dailyCalculator", fullRxpression);
+                dbHelper.insert("dailyCalculator", fullRxpression +"\n"+ dateTime());
             }
             else {
                 return;
@@ -244,6 +247,14 @@ public class MainActivity extends AppCompatActivity {
         fullRxpression = "";
 //        Toast.makeText(context, fullRxpression, Toast.LENGTH_LONG).show();
 
+    }
+
+    public String dateTime(){
+        Calendar currentTime = Calendar.getInstance();
+
+        SimpleDateFormat dateTime = new SimpleDateFormat("dd-MMM-yy h:mm a");
+        String formattedDate = dateTime.format(currentTime.getTime());
+        return formattedDate;
     }
 
     public void onClickBackspace(View v){
@@ -288,18 +299,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else{
-            if (display != ""){
-                Double newValue = (Double.valueOf(saved_value) + Double.valueOf(display));
-                editor.putString("saved_result", String.valueOf(newValue));
-                editor.commit();
-                display = String.valueOf(newValue);
+            if (!display.isEmpty()){
+//                String[] operation = display.split(Pattern.quote(currentOperator));
+//                result = String.valueOf(operator(operation[0], operation[1], currentOperator));
+                String operation = display + saved_value;
+                try{
+                    result = evaluator.evaluate(operation).toString();
+                }
+                catch (Exception e){
+                    System.out.println (display+" is an invalid expression");
+                }
+
+                display = result;
+//                Double newValue = (Double.valueOf(saved_value) + Double.valueOf(display));
+//                display = String.valueOf(newValue);
                 updateScreen();
             }
             else {
-                Double newValue = (Double.valueOf(saved_value) + Double.valueOf(saved_value));
-                editor.putString("saved_result", String.valueOf(newValue));
-                editor.commit();
-                display = String.valueOf(newValue);
+                display = String.valueOf(saved_value);
                 updateScreen();
             }
         }
