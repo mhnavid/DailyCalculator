@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickClear(View v){
         clear();
         updateScreen();
+        dbHelper.insert("dailyCalculator", fullRxpression +"\n"+ dateTime());
         fullRxpression = "";
     }
 
@@ -230,21 +231,31 @@ public class MainActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         if (display == "")return;
 //        if (!getResult())return;
-        try{
-            result = evaluator.evaluate(display).toString();
-            fullRxpression += " = " + result;
-            if (!(resultView.getText().toString().equals(result))){
-                dbHelper.insert("dailyCalculator", fullRxpression +"\n"+ dateTime());
-            }
-            else {
-                return;
-            }
+        if (!result.isEmpty()){
+            String[] operation = display.split(Pattern.quote(currentOperator));
+            String secondNumber = operation[1];
+            String firstNumber = result;
+            String newExpression = firstNumber + currentOperator +secondNumber;
+            result = evaluator.evaluate(newExpression).toString();
+            fullRxpression += currentOperator + secondNumber + " = " + result;
         }
-        catch (Exception e){
-            System.out.println (display+" is an invalid expression");
+        else {
+            try{
+                result = evaluator.evaluate(display).toString();
+                fullRxpression += " = " + result;
+//            if (!(resultView.getText().toString().equals(result))){
+//                dbHelper.insert("dailyCalculator", fullRxpression +"\n"+ dateTime());
+//            }
+//            else {
+//                return;
+//            }
+            }
+            catch (Exception e){
+                System.out.println (display+" is an invalid expression");
+            }
         }
         resultView.setText(String.valueOf(result));
-        fullRxpression = "";
+//        fullRxpression = "";
 //        Toast.makeText(context, fullRxpression, Toast.LENGTH_LONG).show();
 
     }
